@@ -1,4 +1,11 @@
 import os
+from colorama import init, Fore, Back, Style
+
+init(autoreset=True)  # Initialize colorama
+
+def print_border(width=90):
+    print(Fore.CYAN + "=" * width)
+
 class Contact:
     def __init__ (self):
         self.name = ""
@@ -7,6 +14,9 @@ class Contact:
         self.address = ""
 
 def add_contact():
+    print_border()
+    print(Fore.GREEN + "ADD NEW CONTACT".center(90))
+    print_border()
     if os.path.exists("ContactNumber.txt"):
         f1 = open("ContactNumber.txt","r")
         nm = int(f1.read())
@@ -33,17 +43,23 @@ def add_contact():
     f1 = open("ContactNumber.txt","w")
     f1.write(f"{n+nm}")
     f1.close()
-    print("Contact added successfully")
-    
+    print(Fore.GREEN + "Contact added successfully")
+
 def view_contact():
-    print("Details of Contacts".center(90))
+    print_border()
+    print(Fore.YELLOW + "CONTACT LIST".center(90))
+    print_border()
     if os.path.exists("Contact_detail.txt"):
         with open("Contact_detail.txt", "r") as f:
-            print(f.read())
+            content = f.read()
+            print(Fore.WHITE + content if content else "No contacts available.")
     else:
-        print("No contacts available.")
+        print(Fore.RED + "No contacts available.")
 
 def search_contact():
+    print_border()
+    print(Fore.YELLOW + "SEARCH CONTACT".center(90))
+    print_border()
     search = input("Enter the name or phone number to search: ").strip().lower()
     if not search:
         print("Search term cannot be empty.")
@@ -80,6 +96,9 @@ def search_contact():
         print("Contact not found.")
 
 def update_contact():
+    print_border()
+    print(Fore.YELLOW + "UPDATE CONTACT".center(90))
+    print_border()
     search = input("Enter the name or phone number of the contact to update: ").strip().lower()
     if not search:
         print("Search term cannot be empty.")
@@ -157,6 +176,9 @@ def update_contact():
         print("Contact not found.")
 
 def delete_contact():
+    print_border()
+    print(Fore.RED + "DELETE CONTACT".center(90))
+    print_border()
     search = input("Enter the name or phone number of the contact to delete: ").strip().lower()
     if not search:
         print("Search term cannot be empty.")
@@ -202,24 +224,41 @@ def delete_contact():
     else:
         print("Contact not found.")
 
+def display_menu():
+    print_border()
+    print(Fore.BLUE + "CONTACT BOOK MANAGEMENT SYSTEM".center(90))
+    print_border()
+    print(Fore.CYAN + """
+    1. Add New Contact
+    2. View Contact List
+    3. Search Contact
+    4. Update Contact
+    5. Delete Contact
+    """)
+    print_border()
+    return input(Fore.YELLOW + "Enter your choice (1-5): " + Fore.WHITE)
 
 def main():
-    print("\n")
-    print("Welcome to the contact book".center(90))
-    choose = input("Enter 1 to add contact.\nEnter 2 to View contact list.\nEnter 3 to Search contact\nEnter 4 to Update contact.\nEnter 5 to delete contact\nEnter: ")
-
-    if choose == "1":
-        add_contact()
-    elif choose == "2":
-        view_contact()
-    elif choose == "3":
-        search_contact()
-    elif choose == "4":
-        update_contact()
-    elif choose == "5":
-        delete_contact()
-    else:
-        print("Invalid choice. Try again.")
+    while True:
+        choose = display_menu()
+        
+        if choose == "1":
+            add_contact()
+        elif choose == "2":
+            view_contact()
+        elif choose == "3":
+            search_contact()
+        elif choose == "4":
+            update_contact()
+        elif choose == "5":
+            delete_contact()
+        else:
+            print(Fore.RED + "Invalid choice. Try again.")
+        
+        if input(Fore.YELLOW + "\nDo you want to continue? (y/n): ").lower() != 'y':
+            break
 
 if __name__ == "__main__":
+    print(Fore.GREEN + "\nWelcome to Contact Book Management System!")
     main()
+    print(Fore.GREEN + "\nThank you for using Contact Book Management System!")

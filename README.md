@@ -94,6 +94,3 @@ CODSOFT/
 
 Feel free to fork and submit pull requests. For major changes, please open an issue first.
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
